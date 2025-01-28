@@ -24,12 +24,12 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex space-x-2">
+    <form onSubmit={handleSubmit} className="flex space-x-2 w-full">
       <Textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Type your message here..."
-        className="min-h-[50px] max-h-[200px]"
+        placeholder={disabled ? "Please connect to Google Calendar first" : "Type your message here..."}
+        className="min-h-[50px] max-h-[200px] flex-1"
         disabled={disabled}
       />
       <Button type="submit" size="icon" disabled={!message.trim() || disabled}>

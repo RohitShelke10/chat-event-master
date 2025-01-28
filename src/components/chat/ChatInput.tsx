@@ -34,11 +34,20 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
       <Textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder={disabled ? "Please connect to Google Calendar first" : "Type your message here..."}
-        className="min-h-[50px] max-h-[200px] flex-1"
+        placeholder={
+          disabled
+            ? "Please connect to Google Calendar first"
+            : "Type your message here..."
+        }
+        className="min-h-[50px] max-h-[200px] flex-1 bg-white/80 backdrop-blur-sm transition-all duration-200 focus:bg-white"
         disabled={disabled}
       />
-      <Button type="submit" size="icon" disabled={!message.trim() || disabled}>
+      <Button
+        type="submit"
+        size="icon"
+        disabled={!message.trim() || disabled}
+        className="bg-primary hover:bg-primary/90 transition-all duration-200 hover:shadow-md active:animate-button-pop"
+      >
         <SendHorizontal className="h-4 w-4" />
       </Button>
     </form>

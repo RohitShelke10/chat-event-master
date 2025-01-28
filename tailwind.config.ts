@@ -25,11 +25,11 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         chat: {
-          user: "hsl(var(--chat-user))",
-          bot: "hsl(var(--chat-bot))",
+          user: "#E5DEFF",
+          bot: "#F1F0FB",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#9b87f5",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -70,11 +70,17 @@ export default {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "button-pop": {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(0.95)" },
+          "100%": { transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "message-fade-in": "message-fade-in 0.3s ease-out forwards",
+        "button-pop": "button-pop 0.2s ease-out",
       },
     },
   },

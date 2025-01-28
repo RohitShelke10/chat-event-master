@@ -64,21 +64,28 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b p-4 flex justify-between items-center">
-        <h1 className="text-xl font-semibold">Calendar Assistant</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#fdfcfb] to-[#e2d1c3]">
+      <header className="border-b backdrop-blur-sm bg-white/30 p-4 flex justify-between items-center fixed top-0 w-full z-10">
+        <h1 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+          Calendar Assistant
+        </h1>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={handleLogout}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleLogout}
+            className="hover:bg-red-100 transition-colors duration-200 hover:text-red-600"
+          >
             <LogOut className="h-4 w-4" />
           </Button>
         </div>
       </header>
-      <main className="container mx-auto p-4 flex flex-col chat-container">
+      <main className="container mx-auto p-4 flex flex-col chat-container pt-20">
         {!isCheckingConnection && !isConnected && (
           <div className="flex justify-center mb-4">
             <Button
               onClick={connectToGoogle}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-800 transition-all duration-200 hover:shadow-md"
               variant="outline"
             >
               <Calendar className="h-4 w-4" />
@@ -86,17 +93,21 @@ const Chat = () => {
             </Button>
           </div>
         )}
-        <div className="flex-1 overflow-y-auto space-y-4 mb-4">
+        <div className="flex-1 overflow-y-auto space-y-4 mb-4 p-4 rounded-lg backdrop-blur-sm bg-white/30">
           {messages.map((message) => (
             <ChatMessage key={message.id} message={message} />
           ))}
           <div ref={messagesEndRef} />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 backdrop-blur-sm bg-white/30 p-4 rounded-lg">
           <Button
             variant="outline"
             size="icon"
-            className={isRecording ? "bg-red-100 hover:bg-red-200" : ""}
+            className={`transition-all duration-200 hover:shadow-md ${
+              isRecording
+                ? "bg-red-100 hover:bg-red-200 text-red-600"
+                : "bg-white hover:bg-gray-50 text-gray-800"
+            }`}
             onClick={toggleVoiceRecording}
           >
             <Mic className="h-4 w-4" />

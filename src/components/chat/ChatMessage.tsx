@@ -17,10 +17,10 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
     >
       <div
         className={cn(
-          "max-w-[80%] rounded-lg px-4 py-2 shadow-sm",
+          "max-w-[80%] rounded-lg px-4 py-2 shadow-sm transition-all duration-200 hover:shadow-md",
           isUser
             ? "bg-chat-user text-primary mr-2"
-            : "bg-chat-bot text-primary ml-2 border"
+            : "bg-chat-bot text-primary ml-2"
         )}
       >
         <p className="text-sm">{message.content}</p>

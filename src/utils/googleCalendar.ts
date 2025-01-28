@@ -9,7 +9,7 @@ let tokenClient: any;
 let gapiInited = false;
 let gisInited = false;
 
-export const initializeGoogleApi = () => {
+export const initializeGoogleApi = async () => {
   const gapiLoaded = () => {
     gapi.load('client', async () => {
       await gapi.client.init({
@@ -38,6 +38,19 @@ export const initializeGoogleApi = () => {
   if (typeof google !== 'undefined') {
     gisLoaded();
   }
+
+  // Check for existing token
+  try {
+    const savedToken = await ApiService.getGoogleToken();
+    if (savedToken) {
+      gapi.client.setToken({ access_token: savedToken });
+      return true;
+    }
+  } catch (error) {
+    console.error('Error checking saved token:', error);
+  }
+
+  return false;
 };
 
 const maybeInitializeToken = () => {

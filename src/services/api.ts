@@ -170,6 +170,16 @@ class ApiService {
       throw error;
     }
   }
+
+  static async getGoogleToken(): Promise<string | null> {
+    try {
+      const response = await this.request("/google/get-token");
+      return response.token;
+    } catch (error) {
+      console.error('Failed to fetch Google token:', error);
+      return null;
+    }
+  }
 }
 
 export default ApiService;

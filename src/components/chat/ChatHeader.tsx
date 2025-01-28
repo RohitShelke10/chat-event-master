@@ -7,8 +7,8 @@ interface ChatHeaderProps {
 
 export const ChatHeader = ({ onLogout }: ChatHeaderProps) => {
   return (
-    <header className="border-b backdrop-blur-sm bg-white/30 p-4 flex justify-between items-center w-full z-10">
-      <h1 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+    <header className="border-b border-[#8B5CF6]/20 backdrop-blur-sm bg-black/30 p-4 flex justify-between items-center w-full z-10">
+      <h1 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
         Calendar Assistant
       </h1>
       <div className="flex items-center gap-2">
@@ -16,7 +16,7 @@ export const ChatHeader = ({ onLogout }: ChatHeaderProps) => {
           variant="ghost"
           size="icon"
           onClick={onLogout}
-          className="hover:bg-red-100 transition-colors duration-200 hover:text-red-600"
+          className="hover:bg-red-500/10 transition-colors duration-200 hover:text-red-400"
         >
           <LogOut className="h-4 w-4" />
         </Button>

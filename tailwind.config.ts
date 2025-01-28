@@ -25,11 +25,11 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         chat: {
-          user: "#1A1F2C",
-          bot: "#221F26",
+          user: "#2A2F42",
+          bot: "#1E1E2C",
         },
         primary: {
-          DEFAULT: "#9b87f5",
+          DEFAULT: "#8B5CF6",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {

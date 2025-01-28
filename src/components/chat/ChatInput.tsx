@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { SendHorizontal } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 interface ChatInputProps {
   onSendMessage: (content: string) => Promise<void>;
@@ -19,6 +20,11 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
       await onSendMessage(message);
       setMessage("");
     } catch (error) {
+      toast({
+        title: "Message Failed",
+        description: "Could not send message. Please try again.",
+        variant: "destructive",
+      });
       console.error("Failed to send message:", error);
     }
   };

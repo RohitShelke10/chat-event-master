@@ -56,15 +56,16 @@ class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
 
       return await response.json();
     } catch (error) {
-      console.error("API request failed:", error);
+      const message = error instanceof Error ? error.message : "An unknown error occurred";
       toast({
         title: "Error",
-        description: "An error occurred. Please try again.",
+        description: message,
         variant: "destructive",
       });
       throw error;
@@ -72,36 +73,81 @@ class ApiService {
   }
 
   static async login(credentials: LoginCredentials): Promise<{ user: User; token: string }> {
-    const response = await this.request("/auth/login", {
-      method: "POST",
-      body: JSON.stringify(credentials),
-    });
-    this.setToken(response.token);
-    return response;
+    try {
+      const response = await this.request("/auth/login", {
+        method: "POST",
+        body: JSON.stringify(credentials),
+      });
+      this.setToken(response.token);
+      return response;
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: "Invalid username or password",
+        variant: "destructive",
+      });
+      throw error;
+    }
   }
 
   static async signup(credentials: SignupCredentials): Promise<{ user: User; token: string }> {
-    const response = await this.request("/auth/signup", {
-      method: "POST",
-      body: JSON.stringify(credentials),
-    });
-    this.setToken(response.token);
-    return response;
+    try {
+      const response = await this.request("/auth/signup", {
+        method: "POST",
+        body: JSON.stringify(credentials),
+      });
+      this.setToken(response.token);
+      return response;
+    } catch (error) {
+      toast({
+        title: "Signup Failed",
+        description: "Could not create account. Please try again.",
+        variant: "destructive",
+      });
+      throw error;
+    }
   }
 
   static async logout() {
-    this.clearToken();
+    try {
+      this.clearToken();
+    } catch (error) {
+      toast({
+        title: "Logout Failed",
+        description: "Could not log out properly",
+        variant: "destructive",
+      });
+      throw error;
+    }
   }
 
   static async sendMessage(content: string): Promise<Message> {
-    return this.request("/chat", {
-      method: "POST",
-      body: JSON.stringify({ content }),
-    });
+    try {
+      return await this.request("/chat", {
+        method: "POST",
+        body: JSON.stringify({ content }),
+      });
+    } catch (error) {
+      toast({
+        title: "Message Failed",
+        description: "Could not send message. Please try again.",
+        variant: "destructive",
+      });
+      throw error;
+    }
   }
 
   static async getMessages(): Promise<Message[]> {
-    return this.request("/chat/history");
+    try {
+      return await this.request("/chat/history");
+    } catch (error) {
+      toast({
+        title: "Error Loading Messages",
+        description: "Could not load chat history",
+        variant: "destructive",
+      });
+      throw error;
+    }
   }
 }
 

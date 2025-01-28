@@ -21,12 +21,14 @@ export const useGoogleCalendar = () => {
   const { data: isConnected, isLoading } = useQuery({
     queryKey: ["googleCalendarConnection"],
     queryFn: checkGoogleConnection,
-    onError: (error) => {
-      toast({
-        title: "Connection Error",
-        description: error instanceof Error ? error.message : "Failed to check connection status",
-        variant: "destructive",
-      });
+    meta: {
+      onError: (error: Error) => {
+        toast({
+          title: "Connection Error",
+          description: error.message || "Failed to check connection status",
+          variant: "destructive",
+        });
+      },
     },
   });
 

@@ -16,15 +16,15 @@ export const ChatControls = ({
   disabled,
 }: ChatControlsProps) => {
   return (
-    <div className="sticky bottom-0 backdrop-blur-sm bg-white/30 p-4 rounded-lg">
+    <div className="sticky bottom-0 backdrop-blur-sm bg-black/30 p-4 rounded-lg">
       <div className="flex gap-2">
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
-          className={`transition-all duration-200 hover:shadow-md ${
+          className={`transition-all duration-200 ${
             isRecording
-              ? "bg-red-100 hover:bg-red-200 text-red-600"
-              : "bg-white hover:bg-gray-50 text-gray-800"
+              ? "text-red-500 hover:text-red-400"
+              : "text-gray-400 hover:text-gray-300"
           }`}
           onClick={toggleVoiceRecording}
         >

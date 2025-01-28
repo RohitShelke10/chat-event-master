@@ -39,14 +39,15 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
             ? "Please connect to Google Calendar first"
             : "Type your message here..."
         }
-        className="min-h-[50px] max-h-[200px] flex-1 bg-[#2A2F42] text-white rounded-full px-6 transition-all duration-200 focus:bg-[#363B52] resize-none border-2 border-[#8B5CF6]/20 focus:border-[#8B5CF6]/50"
+        className="min-h-[50px] max-h-[200px] flex-1 bg-black text-white rounded-full px-6 transition-all duration-200 focus:bg-[#111] resize-none border border-[#333]/30 focus:border-[#444]/50"
         disabled={disabled}
       />
       <Button
         type="submit"
         size="icon"
+        variant="ghost"
         disabled={!message.trim() || disabled}
-        className="bg-[#8B5CF6] hover:bg-[#7C3AED] transition-all duration-200 hover:shadow-md active:animate-button-pop rounded-full shadow-lg shadow-purple-500/20"
+        className="text-gray-400 hover:text-gray-300 transition-all duration-200"
       >
         <SendHorizontal className="h-4 w-4" />
       </Button>

@@ -18,16 +18,25 @@ export const AuthForm = () => {
 
     const formData = new FormData(e.currentTarget);
     const credentials = {
-      email: formData.get("email") as string,
+      username: formData.get("username") as string,
       password: formData.get("password") as string,
-      ...(isLogin ? {} : { name: formData.get("name") as string }),
     };
 
     try {
+      // Special case for empty credentials in login
+      if (isLogin && !credentials.username && !credentials.password) {
+        toast({
+          title: "Demo Login",
+          description: "Logging in with demo account",
+        });
+        navigate("/chat");
+        return;
+      }
+
       if (isLogin) {
         await ApiService.login(credentials);
       } else {
-        await ApiService.signup(credentials as any);
+        await ApiService.signup(credentials);
       }
       toast({
         title: "Success",
@@ -36,6 +45,11 @@ export const AuthForm = () => {
       navigate("/chat");
     } catch (error) {
       console.error(error);
+      toast({
+        title: "Error",
+        description: "An error occurred. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -44,7 +58,14 @@ export const AuthForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
-        <CardHeader>
+        <CardHeader className="space-y-2">
+          <div className="flex items-center justify-center mb-4">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/2693/2693507.png"
+              alt="Calendar Chatbot Logo"
+              className="h-16 w-16"
+            />
+          </div>
           <CardTitle>{isLogin ? "Login" : "Sign Up"}</CardTitle>
           <CardDescription>
             {isLogin
@@ -54,19 +75,13 @@ export const AuthForm = () => {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
-            {!isLogin && (
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" required />
-              </div>
-            )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" name="email" type="email" required />
+              <Label htmlFor="username">Username</Label>
+              <Input id="username" name="username" required={!isLogin} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" name="password" type="password" required />
+              <Input id="password" name="password" type="password" required={!isLogin} />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">

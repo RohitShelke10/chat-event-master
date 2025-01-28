@@ -65,7 +65,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fdfcfb] to-[#e2d1c3] flex flex-col">
+    <div className="min-h-screen bg-[#1A1F2C] text-white flex flex-col">
       <ChatHeader onLogout={handleLogout} />
       <div className="flex-1 container mx-auto p-4 flex flex-col h-[calc(100vh-64px)]">
         {!isCheckingConnection && !isConnected && (

@@ -150,6 +150,26 @@ class ApiService {
       throw error;
     }
   }
+
+  static async saveGoogleToken(token: string): Promise<void> {
+    try {
+      await this.request("/google/save-token", {
+        method: "POST",
+        body: JSON.stringify({ token }),
+      });
+      toast({
+        title: "Token Saved",
+        description: "Successfully saved Google Calendar token",
+      });
+    } catch (error) {
+      toast({
+        title: "Token Save Failed",
+        description: "Could not save Google Calendar token",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  }
 }
 
 export default ApiService;

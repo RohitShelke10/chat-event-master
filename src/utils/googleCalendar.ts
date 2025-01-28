@@ -1,3 +1,5 @@
+import ApiService from "@/services/api";
+
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || '';
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
@@ -56,7 +58,16 @@ export const handleAuthClick = async (): Promise<boolean> => {
         resolve(false);
         return;
       }
-      resolve(true);
+      
+      try {
+        // Send token to backend
+        const token = gapi.client.getToken().access_token;
+        await ApiService.saveGoogleToken(token);
+        resolve(true);
+      } catch (error) {
+        console.error('Failed to save token:', error);
+        resolve(false);
+      }
     };
 
     if (gapi.client.getToken() === null) {

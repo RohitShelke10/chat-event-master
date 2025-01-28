@@ -25,8 +25,6 @@ export const AuthForm = () => {
 
     try {
       if (isLogin) {
-        // Check for specific login credentials
-        if (credentials.username === 'x' && credentials.password === 'x') {
           await ApiService.login({
             username: credentials.username,
             password: credentials.password
@@ -36,9 +34,6 @@ export const AuthForm = () => {
             description: "Successfully logged in!",
           });
           navigate("/chat");
-        } else {
-          throw new Error("Invalid credentials");
-        }
       } else {
         await ApiService.signup(credentials);
         toast({
@@ -51,7 +46,7 @@ export const AuthForm = () => {
       console.error(error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "An error occurred. Please try again.",
+        description: error instanceof Error ? "Invalid credentials" : "An error occurred. Please try again.",
         variant: "destructive",
       });
     } finally {

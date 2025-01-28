@@ -23,16 +23,16 @@ const Chat = () => {
       return;
     }
 
-    const loadMessages = async () => {
-      try {
-        const history = await ApiService.getMessages();
-        setMessages(history);
-      } catch (error) {
-        console.error("Failed to load messages:", error);
-      }
-    };
+    // const loadMessages = async () => {
+    //   try {
+    //     const history = await ApiService.getMessages();
+    //     setMessages(history);
+    //   } catch (error) {
+    //     console.error("Failed to load messages:", error);
+    //   }
+    // };
 
-    loadMessages();
+    // loadMessages();
   }, [navigate]);
 
   useEffect(() => {

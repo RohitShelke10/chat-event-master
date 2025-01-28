@@ -1,6 +1,6 @@
 import { toast } from "@/components/ui/use-toast";
 
-const API_URL = "https://api.example.com"; // Replace with actual API URL
+const API_URL = "http://127.0.0.1:8000"; // Replace with actual API URL
 
 export interface LoginCredentials {
   username: string;
@@ -13,6 +13,7 @@ export interface SignupCredentials extends LoginCredentials {
 
 export interface User {
   id: string;
+  email: string;
   username: string;
 }
 

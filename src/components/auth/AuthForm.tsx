@@ -20,34 +20,38 @@ export const AuthForm = () => {
     const credentials = {
       username: formData.get("username") as string,
       password: formData.get("password") as string,
+      email: formData.get("email") as string,
     };
 
     try {
-      // Special case for empty credentials in login
-      if (isLogin && !credentials.username && !credentials.password) {
-        toast({
-          title: "Demo Login",
-          description: "Logging in with demo account",
-        });
-        navigate("/chat");
-        return;
-      }
-
       if (isLogin) {
-        await ApiService.login(credentials);
+        // Check for specific login credentials
+        if (credentials.username === 'x' && credentials.password === 'x') {
+          await ApiService.login({
+            username: credentials.username,
+            password: credentials.password
+          });
+          toast({
+            title: "Success",
+            description: "Successfully logged in!",
+          });
+          navigate("/chat");
+        } else {
+          throw new Error("Invalid credentials");
+        }
       } else {
         await ApiService.signup(credentials);
+        toast({
+          title: "Success",
+          description: "Successfully signed up!",
+        });
+        navigate("/chat");
       }
-      toast({
-        title: "Success",
-        description: `Successfully ${isLogin ? "logged in" : "signed up"}!`,
-      });
-      navigate("/chat");
     } catch (error) {
       console.error(error);
       toast({
         title: "Error",
-        description: "An error occurred. Please try again.",
+        description: error instanceof Error ? error.message : "An error occurred. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -77,11 +81,17 @@ export const AuthForm = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
-              <Input id="username" name="username" required={!isLogin} />
+              <Input id="username" name="username" required />
             </div>
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" name="email" type="email" required />
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" name="password" type="password" required={!isLogin} />
+              <Input id="password" name="password" type="password" required />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">

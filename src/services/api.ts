@@ -7,7 +7,9 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface SignupCredentials extends LoginCredentials {}
+export interface SignupCredentials extends LoginCredentials {
+  email?: string;
+}
 
 export interface User {
   id: string;

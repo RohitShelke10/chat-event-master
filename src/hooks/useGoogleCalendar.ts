@@ -1,24 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
-
-const checkGoogleConnection = async (): Promise<boolean> => {
-  try {
-    // Simulate API call with 1 second delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // Randomly return true or false to simulate API response
-    return Math.random() > 0.5;
-  } catch (error) {
-    toast({
-      title: "Connection Check Failed",
-      description: "Could not verify Google Calendar connection",
-      variant: "destructive",
-    });
-    throw error;
-  }
-};
+import { checkGoogleConnection, handleAuthClick, handleSignoutClick, initializeGoogleApi } from "@/utils/googleCalendar";
+import { useEffect } from "react";
 
 export const useGoogleCalendar = () => {
-  const { data: isConnected, isLoading } = useQuery({
+  useEffect(() => {
+    initializeGoogleApi();
+  }, []);
+
+  const { data: isConnected, isLoading, refetch } = useQuery({
     queryKey: ["googleCalendarConnection"],
     queryFn: checkGoogleConnection,
     meta: {
@@ -34,10 +24,20 @@ export const useGoogleCalendar = () => {
 
   const connectToGoogle = async () => {
     try {
-      // Simulate connection process
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // Force a refetch of the connection status
-      window.location.reload();
+      const success = await handleAuthClick();
+      if (success) {
+        toast({
+          title: "Connected",
+          description: "Successfully connected to Google Calendar",
+        });
+        refetch();
+      } else {
+        toast({
+          title: "Connection Failed",
+          description: "Could not connect to Google Calendar",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       toast({
         title: "Connection Failed",
@@ -48,9 +48,21 @@ export const useGoogleCalendar = () => {
     }
   };
 
+  const disconnectFromGoogle = () => {
+    const success = handleSignoutClick();
+    if (success) {
+      toast({
+        title: "Disconnected",
+        description: "Successfully disconnected from Google Calendar",
+      });
+      refetch();
+    }
+  };
+
   return {
     isConnected,
     isLoading,
     connectToGoogle,
+    disconnectFromGoogle,
   };
 };

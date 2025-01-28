@@ -14,25 +14,18 @@ const Chat = () => {
   const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { isConnected, isLoading: isCheckingConnection, connectToGoogle } =
-    useGoogleCalendar();
+  const { 
+    isConnected, 
+    isLoading: isCheckingConnection, 
+    connectToGoogle,
+    disconnectFromGoogle 
+  } = useGoogleCalendar();
 
   useEffect(() => {
     if (!ApiService.getToken()) {
       navigate("/");
       return;
     }
-
-    // const loadMessages = async () => {
-    //   try {
-    //     const history = await ApiService.getMessages();
-    //     setMessages(history);
-    //   } catch (error) {
-    //     console.error("Failed to load messages:", error);
-    //   }
-    // };
-
-    // loadMessages();
   }, [navigate]);
 
   useEffect(() => {
@@ -64,12 +57,23 @@ const Chat = () => {
     });
   };
 
+  const handleGoogleConnection = () => {
+    if (isConnected) {
+      disconnectFromGoogle();
+    } else {
+      connectToGoogle();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#1A1F2C] text-white flex flex-col">
       <ChatHeader onLogout={handleLogout} />
       <div className="flex-1 container mx-auto p-4 flex flex-col h-[calc(100vh-64px)]">
-        {!isCheckingConnection && !isConnected && (
-          <ConnectButton onClick={connectToGoogle} />
+        {!isCheckingConnection && (
+          <ConnectButton 
+            onClick={handleGoogleConnection} 
+            isConnected={!!isConnected} 
+          />
         )}
         <MessageList messages={messages} messagesEndRef={messagesEndRef} />
         <ChatControls
